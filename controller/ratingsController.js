@@ -32,7 +32,7 @@ const atCoderRating = async (req,res) => {
     }
     catch (err)
     {
-        // console.log("Error while Fetching atcoderRating -> ",err);
+        console.log("Error while Fetching atcoderRating -> ",err);
         res.status(503).json({
             success: false,
             message:"Opps! Some error occurred"
@@ -88,7 +88,7 @@ const codechefRating = async (req,res) => {
     }
     catch (err)
     {
-        // console.log("Error in codechef Rating Fun -> ", err);
+        console.log("Error in codechef Rating Fun -> ", err);
         res.status(503).json({
             success: false,
             message:"Opps! Some error occurred"
@@ -102,36 +102,46 @@ const codeforcesRating = async (req, res) => {
     const url = codeforcesBaseUrl + users
     const response = await fetch(url, { method: "GET" })
 
-    const jsonArray=[]
-    if (response.ok)
-    {
-        const jsonObject = await response.json()
-        if (jsonObject.status == "OK")
+    try {
+        const jsonArray=[]
+        if (response.ok)
         {
-            const arr = jsonObject.result
-            
-            for (let i = 0; i < arr.length; i++)
+            const jsonObject = await response.json()
+            if (jsonObject.status == "OK")
             {
-                const curr=arr[i]
-                const obj = {
-                    handle: curr.handle,
-                    rating: curr.rating,
-                    rank: curr.rank,
-                    maxRating: curr.maxRating,
-                    maxRank:curr.maxRank
+                const arr = jsonObject.result
+                
+                for (let i = 0; i < arr.length; i++)
+                {
+                    const curr=arr[i]
+                    const obj = {
+                        handle: curr.handle,
+                        rating: curr.rating,
+                        rank: curr.rank,
+                        maxRating: curr.maxRating,
+                        maxRank:curr.maxRank
+                    }
+                    jsonArray.push(obj)
                 }
-                jsonArray.push(obj)
             }
+            res.status(200).send(jsonArray)
         }
-        res.status(200).send(jsonArray)
+        else {
+            console.log("Error in fetching codeforces ratings -> ", response.error);
+            res.status(503).json({
+                success: false,
+                message:"Opps! Some error occurred"
+            })
+        }
     }
-    else {
-        // console.log("Error in fetching codeforces ratings -> ", response.error);
+    catch (err) {
+        console.log('Error in codeforces Rating Fun -> ', err);
         res.status(503).json({
-            success: false,
-            message:"Opps! Some error occurred"
-        })
+            status: 'failed',
+            message: 'Opps! Some error occurred',
+        });
     }
+
 }
 
 const leetCodeRating = async (req, res) => {
@@ -158,7 +168,7 @@ const leetCodeRating = async (req, res) => {
     }
     catch (err)
     {
-        // console.log("Error in codechef Rating Fun -> ", err);
+        console.log("Error in leetCode Rating Fun -> ", err);
         res.status(503).json({
             status: "failed",
             message:"Opps! Some error occurred"
