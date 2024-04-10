@@ -26,6 +26,7 @@ const atCoderRating = async (req,res) => {
         const rating=pretty(rt.html())
         res.status(200).json({
             status: "success",
+            handle:req.params.username,
             rating:rating
         })
     }
@@ -79,6 +80,7 @@ const codechefRating = async (req,res) => {
         }
         res.status(200).json({
             status: "success",
+            handle:username,
             rating: rating,
             stars: star,
             // highest_rating:
@@ -150,6 +152,7 @@ const leetCodeRating = async (req, res) => {
         const solved=pretty(total.html())
         res.status(200).json({
             status: "success",
+            handle:username,
             totalSolved: solved,
         })
     }
