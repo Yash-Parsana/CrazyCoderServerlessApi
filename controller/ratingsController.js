@@ -126,7 +126,7 @@ const leetCodeRating = async (req, res) => {
         `;
         const variables = { username };
         const data = await request(leetCodeBaseUrl, query, variables);
-        const rating = Math.floor(data.userContestRanking.rating);
+        const rating = Math.floor((data?.userContestRanking?.rating) ?? 0);
         res.status(200).json({
             status: 'success',
             handle: username,
