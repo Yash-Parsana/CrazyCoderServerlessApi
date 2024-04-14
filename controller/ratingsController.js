@@ -122,15 +122,30 @@ const leetCodeRating = async (req, res) => {
                 userContestRanking(username: $username) {
                     rating
                 }
+                matchedUser(username: $username) {
+                    username
+                    submitStats: submitStatsGlobal {
+                        acSubmissionNum {
+                            difficulty
+                            count
+                            submissions
+                        }
+                    }
+                }
             }
         `;
         const variables = { username };
         const data = await request(leetCodeBaseUrl, query, variables);
-        const rating = Math.floor((data?.userContestRanking?.rating) ?? 0);
+        const rating = Math.floor((data?.userContestRanking?.rating));
+        const solvedQuestions = {}
+        data?.matchedUser?.submitStats?.acSubmissionNum.forEach(element => {
+            solvedQuestions[(element?.difficulty)?.toLowerCase()] = element.count;
+        });
         res.status(200).json({
             status: 'success',
             handle: username,
             rating: rating,
+            ...solvedQuestions
         });
     } catch (err) {
         console.log('Error in leetCode Rating Fun -> ', err);
