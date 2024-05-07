@@ -71,29 +71,33 @@ The different technologies used to build CrazyCoder :
 
 ## Repo Status ✳️
 <div align="center">
- <img src="https://img.shields.io/github/repo-size/Yash-Parsana/CrazyCoderWebApp?style=for-the-badge" />
-	<img src="https://img.shields.io/github/stars/Yash-Parsana/CrazyCoderWebApp?style=for-the-badge&color=FBCB0A" />
-	<img src="https://img.shields.io/github/forks/Yash-Parsana/CrazyCoderWebApp?style=for-the-badge&color=00C4FF" />
-	<img src="https://img.shields.io/github/contributors/Yash-Parsana/CrazyCoderWebApp?style=for-the-badge&color=FF5DA2" />
- <img src="https://img.shields.io/github/last-commit/Yash-Parsana/CrazyCoderWebApp?style=for-the-badge&color=54B435" />
+ <img src="https://img.shields.io/github/repo-size/Yash-Parsana/CrazyCoderServerlessApi?style=for-the-badge" />
+	<img src="https://img.shields.io/github/stars/Yash-Parsana/CrazyCoderServerlessApi?style=for-the-badge&color=FBCB0A" />
+	<img src="https://img.shields.io/github/forks/Yash-Parsana/CrazyCoderServerlessApi?style=for-the-badge&color=00C4FF" />
+	<img src="https://img.shields.io/github/contributors/Yash-Parsana/CrazyCoderServerlessApi?style=for-the-badge&color=FF5DA2" />
+ <img src="https://img.shields.io/github/last-commit/Yash-Parsana/CrazyCoderServerlessApi?style=for-the-badge&color=54B435" />
 <br>
-	<img src="https://img.shields.io/github/issues/Yash-Parsana/CrazyCoderWebApp?style=for-the-badge&color=green" />
-	<img src="https://img.shields.io/github/issues-closed/Yash-Parsana/CrazyCoderWebApp?style=for-the-badge&color=FF5403" />
-	<img src="https://img.shields.io/github/issues-pr/Yash-Parsana/CrazyCoderWebApp.svg?style=for-the-badge&color=green" />
-	<img src="https://img.shields.io/github/issues-pr-closed/Yash-Parsana/CrazyCoderWebApp?style=for-the-badge&color=FF5403" />
+	<img src="https://img.shields.io/github/issues/Yash-Parsana/CrazyCoderServerlessApi?style=for-the-badge&color=green" />
+	<img src="https://img.shields.io/github/issues-closed/Yash-Parsana/CrazyCoderServerlessApi?style=for-the-badge&color=FF5403" />
+	<img src="https://img.shields.io/github/issues-pr/Yash-Parsana/CrazyCoderServerlessApi.svg?style=for-the-badge&color=green" />
+	<img src="https://img.shields.io/github/issues-pr-closed/Yash-Parsana/CrazyCoderServerlessApi?style=for-the-badge&color=FF5403" />
 </div><br>
 
 ## Contribution Guidelines
 
 We welcome contributions from the open-source community to make CrazyCoder even better. To contribute, please follow these steps:
-
+ 
+ :pushpin: <b>Star the Repo:</b> Start by giving our repository a star to show your support.
+ 
  :pushpin: <b>Find or Create an Issue:</b> Browse the existing issues or create a new one if you have a suggestion or find a bug.
 
- :pushpin: <b>Fork the Repo:</b> Fork the CrazyCoder repository to your GitHub account (Click the <a href="https://github.com/Yash-Parsana/CrazyCoderWebApp/fork"><img src="https://i.imgur.com/G4z1kEe.png" height="21" width="21"></a> button in the top right of this page).
+ :pushpin: <b>Fork the Repo:</b> Fork the CrazyCoder repository to your GitHub account (Click the <a href="https://github.com/Yash-Parsana/CrazyCoderServerlessApi/fork"><img src="https://i.imgur.com/G4z1kEe.png" height="21" width="21"></a> button in the top right of this page).
+
+ :pushpin: <b>Fork the Repo:</b> Fork the CrazyCoder repository to your GitHub account (Click the <a href="https://github.com/Yash-Parsana/CrazyCoderServerlessApi/fork"><img src="https://i.imgur.com/G4z1kEe.png" height="21" width="21"></a> button in the top right of this page).
  
  :pushpin: <b>Clone the Repo:</b> Clone the forked repository to your local machine.
  ```markdown
- git clone https://github.com/your_username/CrazyCoderWebApp.git
+ git clone https://github.com/your_username/CrazyCoderServerlessApi.git
  ```
  Note: Replace `github_username` with your actual GitHub username.
  
@@ -111,17 +115,17 @@ We welcome contributions from the open-source community to make CrazyCoder even 
  git push origin branch_name
  ```
  
- :pushpin: <b>Open a Pull Request:</b> Open a pull request from your branch to the main CrazyCoderWebApp repository. Provide a clear description of the changes you've made. Add screenshots or screen captures to your Pull Request to help us understand the effects of the changes proposed in your PR.
+ :pushpin: <b>Open a Pull Request:</b> Open a pull request from your branch to the main CrazyCoderServerlessApi repository. Provide a clear description of the changes you've made. Add screenshots or screen captures to your Pull Request to help us understand the effects of the changes proposed in your PR.
 
-:pushpin: <b>Review and Merge:</b> Wait for your PR review and approval from the maintainers.
-Once approved, it will be merged into the main repository.
+:pushpin: <b>Review and Merge:</b> Wait for your PR review and CrazyCoderServerlessApiroval from the maintainers.
+Once CrazyCoderServerlessApiroved, it will be merged into the main repository.
 
 <br>
 We appreciate your contributions and thank you for helping us make CrazyCoder a valuable resource for the competitive programming community!!
 
 ## Our Contributors ✨
-<a href="https://github.com/Yash-Parsana/CrazyCoderWebApp/graphs/contributors">
-  <img align="center" src="https://contrib.rocks/image?max=100&repo=Yash-Parsana/CrazyCoderWebApp" />
+<a href="https://github.com/Yash-Parsana/CrazyCoderServerlessApi/graphs/contributors">
+  <img align="center" src="https://contrib.rocks/image?max=100&repo=Yash-Parsana/CrazyCoderServerlessApi" />
 </a> 
 <br><br>
 Thank you to all the amazing contributors who have made this project possible!!💝
