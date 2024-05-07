@@ -86,12 +86,8 @@ The different technologies used to build CrazyCoder :
 ## Contribution Guidelines
 
 We welcome contributions from the open-source community to make CrazyCoder even better. To contribute, please follow these steps:
- 
- :pushpin: <b>Star the Repo:</b> Start by giving our repository a star to show your support.
- 
- :pushpin: <b>Find or Create an Issue:</b> Browse the existing issues or create a new one if you have a suggestion or find a bug.
 
- :pushpin: <b>Fork the Repo:</b> Fork the CrazyCoder repository to your GitHub account (Click the <a href="https://github.com/Yash-Parsana/CrazyCoderServerlessApi/fork"><img src="https://i.imgur.com/G4z1kEe.png" height="21" width="21"></a> button in the top right of this page).
+ :pushpin: <b>Find or Create an Issue:</b> Browse the existing issues or create a new one if you have a suggestion or find a bug.
 
  :pushpin: <b>Fork the Repo:</b> Fork the CrazyCoder repository to your GitHub account (Click the <a href="https://github.com/Yash-Parsana/CrazyCoderServerlessApi/fork"><img src="https://i.imgur.com/G4z1kEe.png" height="21" width="21"></a> button in the top right of this page).
  
@@ -117,8 +113,8 @@ We welcome contributions from the open-source community to make CrazyCoder even 
  
  :pushpin: <b>Open a Pull Request:</b> Open a pull request from your branch to the main CrazyCoderServerlessApi repository. Provide a clear description of the changes you've made. Add screenshots or screen captures to your Pull Request to help us understand the effects of the changes proposed in your PR.
 
-:pushpin: <b>Review and Merge:</b> Wait for your PR review and CrazyCoderServerlessApiroval from the maintainers.
-Once CrazyCoderServerlessApiroved, it will be merged into the main repository.
+:pushpin: <b>Review and Merge:</b> Wait for your PR review and approval from the maintainers.
+Once approved, it will be merged into the main repository.
 
 <br>
 We appreciate your contributions and thank you for helping us make CrazyCoder a valuable resource for the competitive programming community!!
