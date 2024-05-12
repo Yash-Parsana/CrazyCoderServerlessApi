@@ -1,4 +1,4 @@
-# Contributor Covenant Code of Conduct
+# Code Of Conduct-CrazyCoderServerlessApi
 
 ## Our Pledge
 
