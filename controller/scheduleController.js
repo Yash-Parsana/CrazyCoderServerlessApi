@@ -347,22 +347,28 @@ const gfgSchedule = async (req, res) => {
             }
 
             let upcoming = response.data['results']['upcoming'];
-            for (let c of upcoming) {
-                contests.push({
-                    'name': c['name'] || c['title'],
-                    'start_time': new Date(c['start_time']).getTime(),
-                    'end_time': new Date(c['end_time']).getTime(),
-                    'status': "upcoming"
-                });
-            }
-
             let past = response.data['results']['past'];
-            for (let c of past) {
+            let allContests = upcoming.concat(past);
+
+            for (let c of allContests) {
+                let startTime = new Date(c['start_time']).getTime();
+                let endTime = new Date(c['end_time']).getTime();
+                let now = Date.now();
+
+                let status;
+                if (now < startTime) {
+                    status = "upcoming";
+                } else if (now >= startTime && now <= endTime) {
+                    status = "ongoing";
+                } else {
+                    continue; 
+                }
+
                 contests.push({
                     'name': c['name'] || c['title'],
-                    'start_time': new Date(c['start_time']).getTime(),
-                    'end_time': new Date(c['end_time']).getTime(),
-                    'status': "past"
+                    'start_time': startTime,
+                    'end_time': endTime,
+                    'status': status
                 });
             }
 
