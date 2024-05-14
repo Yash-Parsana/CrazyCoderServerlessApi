@@ -12,6 +12,7 @@ const ratingRouter = require('../router/ratingRouter');
 
 router.use('/schedule', scheduleRouter);
 router.use('/ranking', ratingRouter);
+router.use('/dailyChallenges',dailyChallengesRouter);
 
 router.get('/', (req,res) => {
     res.send("You are in default Rought")
