@@ -15,36 +15,18 @@ const gfgUrl="https://practice.geeksforgeeks.org/events?utm_source=geeksforgeeks
 
 
 const atCoderSchedule = async (req, res) => {
-    
-    //res array object
-    // {
-    //     name: "",
-    //     start_time: "",
-    //     end_time: "",
-    //     status:""
-    // }
-
     const jsonArray=[]
-
     const {data} =await axios.get(atCoderUrl)
-    
     const $ = cheerio.load(data)
-    
     const contests=$(".table-default tbody tr")
-
-
     contests.each((idx, ele) => {
-        
         const curr=cheerio.load(ele)
-        
         const name = pretty((curr("td:nth-child(2) a")).html())
         const Stime = parseInt(Date.parse((pretty(curr("td:nth-child(1) a time").html())))) //from 2023-01-28(Sat) 08:30 to timestamp
         const str = pretty(curr("td:nth-child(3)").html()).toString()
         const hour = parseInt(str.split(":")[0])
         const minute=parseInt(str.split(":")[1])
         const Etime = Stime + hour * 60 * 60 * 1000 + minute * 60 * 1000
-
-
         if ((!isNaN(Stime)&&!isNaN(Etime))&&Etime > Date.now()) //avoiding finished contest and practice contest
         {
             const status=Date.now()>Stime?"ongoing":"upcoming"
@@ -61,7 +43,6 @@ const atCoderSchedule = async (req, res) => {
 }
 
 const codechefSchedule = async (req, res) => {
-    
     const response=await fetch(codeChefUrl,{method: 'GET'})
     const jsonArray = []
     if (response.ok)
@@ -85,15 +66,8 @@ const codechefSchedule = async (req, res) => {
                 
                 if (curr.contest_code != "GAMES")
                 {
-                    // const contestStartISODate = curr.contest_start_date_iso;
-                    // const contestEndISODate = curr.contest_end_date_iso;
-                    // const contestStart = new Date(contestStartISODate);
-                    // const contestEnd = new Date(contestEndISODate);
                     const contestStartUTC = Date.parse(curr.contest_start_date_iso);
                     const contestEndUTC = Date.parse(curr.contest_end_date_iso)
-
-                    // contestStartUTC will be a JavaScript Date object representing the contest start time in UTC timezone
-                    //new Date(contestStart.getTime() + contestStart.getTimezoneOffset() * 60 * 1000)
                     const obj = {
                         name: curr.contest_name,
                         start_time:contestStartUTC,
@@ -123,9 +97,6 @@ const codechefSchedule = async (req, res) => {
             message:"Sorry! We are not avaiable now"
         })
     }
-    // console.log(jsonObject);
-
-
     res.status(200).send(jsonArray)
 }
 
@@ -232,72 +203,6 @@ const hackerEarthSchedule = async (req, res) => {
     res.status(200).send(jsonArray)
 }
 
-// const kickStartSchedule = async (req, res) => {
-    
-//     //using puppeteer
-//     const browser = await puppeteer.launch({});
-//     const page = await browser.newPage();
-//     await page.goto(kickStartUrl);
-  
-//     await page.waitForSelector('.schedule-row__upcoming');
-
-//     const htmlpage = await page.evaluate(() => document.body.innerHTML);
-
-//     // console.log(htmlpage);
-//     const $=cheerio.load(htmlpage)
-    
-//     const contests = $(".schedule-row__upcoming")
-//     const jsonArray=[]
-//     contests.each((idx, ele) => {
-//         const curr = cheerio.load(ele)
-//         const name = pretty(curr("div:nth-child(1) span").html())
-//         const start_time = Date.parse(pretty(curr("div:nth-child(2) span").html()))
-//         const end_time = Date.parse(pretty(curr("div:nth-child(3) span").html()))
-//         const obj = {
-//             name: name,
-//             start_time: start_time,
-//             end_time: end_time,
-//             status:start_time<Date.now()?"ongoing":"upcoming"
-//         }
-//         jsonArray.push(obj)
-//     })
-//     console.log(jsonArray);
-//     await browser.close();
-//     res.status(200).send(jsonArray)
-
-//     //using nightmarejs
-//     // const nightmare = Nightmare({ show: false });
-
-//     // const jsonArray=[]
-//     // await nightmare
-//     //   .goto('https://codingcompetitions.withgoogle.com/kickstart/schedule')
-//     //   .wait('.schedule-row__upcoming')
-//     //   .evaluate(() => {
-//     //     return document.body.innerHTML;
-//     //   })
-//     //   .end()
-//     //     .then(htmlpage => {
-//     //       console.log("got");
-//     //     const $=cheerio.load(htmlpage)
-    
-//     //     const contests = $(".schedule-row__upcoming")
-//     //     contests.each((idx, ele) => {
-//     //         const curr = cheerio.load(ele)
-//     //         const name = pretty(curr("div:nth-child(1) span").html())
-//     //         const start_time = Date.parse(pretty(curr("div:nth-child(2) span").html()))
-//     //         const end_time = Date.parse(pretty(curr("div:nth-child(3) span").html()))
-//     //         const obj = {
-//     //             name: name,
-//     //             start_time: start_time,
-//     //             end_time: end_time,
-//     //             status:start_time<Date.now()?"ongoing":"upcoming"
-//     //         }
-//     //         jsonArray.push(obj)
-//     //     })
-//     // });
-//     // res.status(200).send(jsonArray)
-// }
-
 const leetCodeSchedule = async (req,res) => {
     
     const response = await fetch(leetCodeUrl)
@@ -333,47 +238,5 @@ const leetCodeSchedule = async (req,res) => {
     }
     res.status(200).send(jsonArray)
 }
-// const gfgSchedule = async (req,res) => {
-    
 
-//     const browser = await puppeteer.launch({});
-//     const page = await browser.newPage();
-//     await page.setRequestInterception(true);
-//     page.on('request', (req) => {
-//       if (req.resourceType() === 'stylesheet' || req.resourceType() === 'image') {
-//         req.abort();
-//       } else {
-//         req.continue();
-//       }
-//     });
-//     await page.goto(gfgUrl);
-  
-//     await page.waitForSelector('.stackable');
-
-//     const htmlpage = await page.evaluate(() => document.body.innerHTML);
-
-//     // console.log(htmlpage);
-//     const $=cheerio.load(htmlpage)
-    
-//     const contests = $("#eventsLanding_eachEventContainer__O5VyK")
-//     const jsonArray = []
-    
-//     contests.each((idx, ele) => {
-//         const curr = cheerio.load(ele)
-//         const name = pretty(curr("a .eventsLanding_eventCardTitle__byiHw").html())
-//         const start_time = (pretty(curr("div:nth-child(2) p:nth-child(1)").html()).toString()+" "+pretty(curr("div:nth-child(2) p:nth-child(2)").html()).toString())
-//         // const end_time = Date.parse(pretty(curr("div:nth-child(3) span").html()))
-//         const obj = {
-//             name: name,
-//             start_time: start_time,
-//             // end_time: end_time,
-//             status:start_time<Date.now()?"ongoing":"upcoming"
-//         }
-//         jsonArray.push(obj)
-//     })
-//     console.log(jsonArray);
-//     await browser.close();
-//     // res.status(200).send(jsonArray)
-
-// }
 module.exports = { atCoderSchedule, codechefSchedule, codeforcesSchedule, hackerRankSchedule, hackerEarthSchedule   ,leetCodeSchedule }
