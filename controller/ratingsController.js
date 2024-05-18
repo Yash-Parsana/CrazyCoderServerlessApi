@@ -41,7 +41,6 @@ const codechefRating = async (req, res) => {
         const $ = cheerio.load(data);
         const ratingDiv = $('.user-profile-container .row .sidebar .content .rating-header .rating-number');
         const stars = $('.user-profile-container .row .sidebar .content .rating-header .rating-star');
-        // const highest_rating=$(".user-profile-container .row .sidebar .content .rating-header ")
         const rating = parseInt(pretty(ratingDiv.html()));
         let star = 1;
         if (rating >= 1400 && rating < 1600) {
@@ -62,7 +61,6 @@ const codechefRating = async (req, res) => {
             handle: username,
             rating: rating,
             stars: star,
-            // highest_rating:
         });
     } catch (err) {
         console.log('Error in codechef Rating Fun -> ', err);
