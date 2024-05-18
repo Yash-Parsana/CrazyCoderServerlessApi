@@ -386,5 +386,69 @@ const gfgSchedule = async (req, res) => {
     }
 }
 
+const codingNinjasSchedule = async (req, res) => {
+    let page = 0;
+    let stop = false;
+    let limit = 25;
+    let jsonArray = [];
+    const now = Date.now(); 
+
+    while (!stop) {
+        page += 1;
+        const url = `https://api.codingninjas.com/api/v3/public_section/contest_list?page=${page}`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            return res.status(503).json({
+                success: false,
+                message: "Could not load Data"
+            });
+        }
+
+        const data = await response.json();
+
+        if (!data.data || !data.data.events) {
+            break;
+        }
+
+        const events = data.data.events;
+
+        for (let i = 0; i < events.length; i++) {
+            const c = events[i];
+            const start_time = new Date(c.event_start_time * 1000).getTime(); 
+            const end_time = new Date(c.event_end_time * 1000).getTime(); 
+
+            if (!req.query.parse_full_list && start_time < now) {
+                limit -= 1;
+                if (limit === 0) {
+                    stop = true;
+                    break;
+                }
+            }
+
+            let status;
+            if (now < start_time) {
+                status = "upcoming";
+            } else if (now >= start_time && now <= end_time) {
+                status = "ongoing";
+            } else {
+                continue; 
+            }
+
+            jsonArray.push({
+                name: c.name,
+                start_time: start_time,
+                end_time: end_time,
+                status: status
+            });
+        }
+
+        if (page >= data.data.total_pages) {
+            break;
+        }
+    }
+    res.status(200).json(jsonArray);
+};
+
   
-module.exports = { atCoderSchedule, codechefSchedule, codeforcesSchedule, hackerRankSchedule, hackerEarthSchedule   ,leetCodeSchedule, gfgSchedule }
+module.exports = { atCoderSchedule, codechefSchedule, codeforcesSchedule, hackerRankSchedule, hackerEarthSchedule ,leetCodeSchedule, gfgSchedule, codingNinjasSchedule }
