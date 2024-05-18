@@ -19,7 +19,7 @@
     "http": "^0.0.1-security",
     "node-fetch": "^2.6.9",
     "pretty": "^2.0.0",
-    "puppeteer": "^19.6.3",
+    "puppeteer": "^19.11.1",
     "serverless-http": "^3.2.0"
   }
 }

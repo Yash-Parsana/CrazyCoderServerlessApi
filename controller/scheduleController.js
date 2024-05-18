@@ -2,6 +2,7 @@ const axios = require('axios')
 const cheerio = require('cheerio')
 const pretty = require('pretty')
 const fetch=require('node-fetch')
+const url = require('url');
 const puppeteer = require('puppeteer')
 
 const atCoderUrl = "https://atcoder.jp/contests"
@@ -11,8 +12,6 @@ const hackerRankUrl = "https://www.hackerrank.com/rest/contests/upcoming?limit=1
 const hackerEarthUrl = "https://www.hackerearth.com/chrome-extension/events/"
 const kickStartUrl = "https://codingcompetitions.withgoogle.com/kickstart/schedule"
 const leetCodeUrl="https://leetcode.com/graphql?query={%20allContests%20{%20title%20titleSlug%20startTime%20duration%20__typename%20}%20}"
-const gfgUrl="https://practice.geeksforgeeks.org/events?utm_source=geeksforgeeks&utm_medium=topheader&utm_campaign=inbound_promotions"
-
 
 const atCoderSchedule = async (req, res) => {
     const jsonArray=[]
@@ -239,4 +238,62 @@ const leetCodeSchedule = async (req,res) => {
     res.status(200).send(jsonArray)
 }
 
-module.exports = { atCoderSchedule, codechefSchedule, codeforcesSchedule, hackerRankSchedule, hackerEarthSchedule   ,leetCodeSchedule }
+
+const gfgSchedule = async (req, res) => {
+    try {
+        let contests = [];
+        let page = 1;
+
+        while (true) {
+            let gfgUrl = `https://practiceapi.geeksforgeeks.org/api/v1/events/?type=contest&page_number=${page}&sub_type=all`;
+            let response = await axios.get(gfgUrl);
+
+            if (!response.data || !response.data['results']) {
+                break;
+            }
+
+            let upcoming = response.data['results']['upcoming'];
+            let past = response.data['results']['past'];
+            let allContests = upcoming.concat(past);
+
+            for (let c of allContests) {
+                let startTime = new Date(c['start_time']).getTime();
+                let endTime = new Date(c['end_time']).getTime();
+                let now = Date.now();
+
+                let status;
+                if (now < startTime) {
+                    status = "upcoming";
+                } else if (now >= startTime && now <= endTime) {
+                    status = "ongoing";
+                } else {
+                    continue; 
+                }
+
+                contests.push({
+                    'name': c['name'] || c['title'],
+                    'start_time': startTime,
+                    'end_time': endTime,
+                    'status': status
+                });
+            }
+
+            if (!process.argv.includes('parse_full_list')) {
+                break;
+            }
+
+            page += 1;
+        }
+
+        res.json(contests); 
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+  
+module.exports = { atCoderSchedule, codechefSchedule, codeforcesSchedule, hackerRankSchedule, hackerEarthSchedule   ,leetCodeSchedule, gfgSchedule }
+
+
+
