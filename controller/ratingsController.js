@@ -9,7 +9,7 @@ const codeChefBaseUrl = 'https://www.codechef.com/users/';
 const codeforcesBaseUrl = 'https://codeforces.com/api/user.info?handles=';
 const leetCodeBaseUrl = 'https://leetcode.com/graphql';
 
-// GSoC Contributor: Improved error handling and logging in ratingsController.js
+// GSSoC Contributor: Improved error handling and logging in ratingsController.js
 
 const atCoderRating = async (req, res) => {
     try {
