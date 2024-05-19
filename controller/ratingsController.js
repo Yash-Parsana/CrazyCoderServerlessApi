@@ -129,14 +129,24 @@ const codingNinjasRating=async(req,res)=>{
                 'Referer': 'https://www.naukri.com/',
         });
         await page.goto(url, {
-            waitUntil: 'networkidle2',
+            waitUntil: 'domcontentloaded',
         });
-        const totalProblemsSolved = await page.$eval('.total', el => parseInt(el.textContent));
-        const easyProblemsSolved = await page.$eval('.difficulty-wise .difficulty:nth-child(1) .value', el => parseInt(el.textContent));
-        const moderateProblemsSolved = await page.$eval('.difficulty-wise .difficulty:nth-child(2) .value', el => parseInt(el.textContent));
-        const hardProblemsSolved = await page.$eval('.difficulty-wise .difficulty:nth-child(3) .value', el => parseInt(el.textContent));
-        const currentStreak = await page.$eval('.current-and-longest-text-container .text-container:nth-child(1) .day-count-text', el => parseInt(el.textContent));
-        const longestStreak = await page.$eval('.current-and-longest-text-container .text-container:nth-child(2) .day-count-text', el => parseInt(el.textContent));
+        const [
+            totalProblemsSolved,
+            easyProblemsSolved,
+            moderateProblemsSolved,
+            hardProblemsSolved,
+            currentStreak,
+            longestStreak
+        ] = await Promise.all([
+            page.$eval('.total', el => parseInt(el.textContent)),
+            page.$eval('.difficulty-wise .difficulty:nth-child(1) .value', el => parseInt(el.textContent)),
+            page.$eval('.difficulty-wise .difficulty:nth-child(2) .value', el => parseInt(el.textContent)),
+            page.$eval('.difficulty-wise .difficulty:nth-child(3) .value', el => parseInt(el.textContent)),
+            page.$eval('.current-and-longest-text-container .text-container:nth-child(1) .day-count-text', el => parseInt(el.textContent)),
+            page.$eval('.current-and-longest-text-container .text-container:nth-child(2) .day-count-text', el => parseInt(el.textContent))
+        ]);
+
         await browser.close();
         const result = {
             status:"success",
