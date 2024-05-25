@@ -9,8 +9,7 @@ const codeChefBaseUrl = 'https://www.codechef.com/users/';
 const codeforcesBaseUrl = 'https://codeforces.com/api/user.info?handles=';
 const leetCodeBaseUrl = 'https://leetcode.com/graphql';
 
-// GSoC Contributor: Improved error handling and logging in ratingsController.js
-
+// Function to fetch AtCoder rating
 const atCoderRating = async (req, res) => {
     try {
         const url = atcoderBaseUrl + req.params.username;
@@ -34,6 +33,7 @@ const atCoderRating = async (req, res) => {
     }
 };
 
+// Function to fetch CodeChef rating
 const codechefRating = async (req, res) => {
     const username = req.params.username;
     try {
@@ -45,19 +45,12 @@ const codechefRating = async (req, res) => {
         const rating = parseInt(pretty(ratingDiv.html()), 10);
 
         let star = 1;
-        if (rating >= 1400 && rating < 1600) {
-            star = 2;
-        } else if (rating >= 1600 && rating < 1800) {
-            star = 3;
-        } else if (rating >= 1800 && rating < 2000) {
-            star = 4;
-        } else if (rating >= 2000 && rating < 2200) {
-            star = 5;
-        } else if (rating >= 2200 && rating < 2500) {
-            star = 6;
-        } else if (rating >= 2500) {
-            star = 7;
-        }
+        if (rating >= 1400 && rating < 1600) star = 2;
+        else if (rating >= 1600 && rating < 1800) star = 3;
+        else if (rating >= 1800 && rating < 2000) star = 4;
+        else if (rating >= 2000 && rating < 2200) star = 5;
+        else if (rating >= 2200 && rating < 2500) star = 6;
+        else if (rating >= 2500) star = 7;
 
         res.status(200).json({
             status: 'success',
@@ -74,6 +67,7 @@ const codechefRating = async (req, res) => {
     }
 };
 
+// Function to fetch Codeforces rating
 const codeforcesRating = async (req, res) => {
     const users = req.params.users;
     const url = codeforcesBaseUrl + users;
@@ -110,6 +104,7 @@ const codeforcesRating = async (req, res) => {
     }
 };
 
+// Function to fetch LeetCode rating
 const leetCodeRating = async (req, res) => {
     const username = req.params.username;
     try {
@@ -154,4 +149,67 @@ const leetCodeRating = async (req, res) => {
     }
 };
 
-module.exports = { atCoderRating, codechefRating, codeforcesRating, leetCodeRating };
+// Function to fetch GeeksForGeeks profile
+const GeeksForGeeksProfile = async (req, res) => {
+    const username = req.params.username;
+    const BASE_URL = `https://auth.geeksforgeeks.org/user/${username}/practice/`;
+
+    try {
+        const profilePage = await axios.get(BASE_URL);
+
+        if (profilePage.status !== 200) {
+            return res.status(503).json({
+                status: 'failure',
+                message: 'Profile Not Found'
+            });
+        }
+
+        const $ = cheerio.load(profilePage.data);
+
+        const additionalDetails = extractDetails($);
+        const codingScores = additionalDetails.coding_scores;
+
+        const response = {
+            status: "success",
+            handle: username,
+            over_all_coding_score: parseInt(codingScores.codingScore || 0, 10),
+            total_problem_solved: parseInt(codingScores.totalProblemsSolved || 0, 10),
+            monthly_coding_score: parseInt(codingScores.monthlyCodingScore || 0, 10),
+            over_all_article_published: parseInt(codingScores.articlesPublished || 0, 10)
+        };
+
+        res.status(200).send(response);
+    } catch (error) {
+        console.error('Error while fetching GeeksForGeeks profile:', error.message);
+        res.status(503).json({
+            status: 'failed',
+            message: 'Oops! Some error occurred'
+        });
+    }
+};
+
+// Helper function to extract text from elements
+const extractTextFromElements = ($, elements, elementKeys) => {
+    const result = {};
+    elements.each((index, element) => {
+        const innerText = $(element).text().trim();
+        result[elementKeys[index]] = innerText === '_ _' ? "" : innerText;
+    });
+    return result;
+};
+
+// Helper function to extract additional details
+const extractDetails = ($) => {
+    const codingScoresByIndex = ["codingScore", "totalProblemsSolved", "monthlyCodingScore", "articlesPublished"];
+
+    let codingScores = $("span.score_card_value");
+    if (codingScores.length === 0) {
+        codingScores = $("div:contains('Coding Score')").nextAll("span");
+    }
+
+    return {
+        coding_scores: extractTextFromElements($, codingScores, codingScoresByIndex)
+    };
+};
+
+module.exports = { atCoderRating, codechefRating, codeforcesRating, leetCodeRating, GeeksForGeeksProfile };
