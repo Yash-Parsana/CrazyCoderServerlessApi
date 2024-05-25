@@ -149,45 +149,6 @@ const leetCodeRating = async (req, res) => {
     }
 };
 
-// Function to fetch GeeksForGeeks profile
-const GeeksForGeeksProfile = async (req, res) => {
-    const username = req.params.username;
-    const BASE_URL = `https://auth.geeksforgeeks.org/user/${username}/practice/`;
-
-    try {
-        const profilePage = await axios.get(BASE_URL);
-
-        if (profilePage.status !== 200) {
-            return res.status(503).json({
-                status: 'failure',
-                message: 'Profile Not Found'
-            });
-        }
-
-        const $ = cheerio.load(profilePage.data);
-
-        const additionalDetails = extractDetails($);
-        const codingScores = additionalDetails.coding_scores;
-
-        const response = {
-            status: "success",
-            handle: username,
-            over_all_coding_score: parseInt(codingScores.codingScore || 0, 10),
-            total_problem_solved: parseInt(codingScores.totalProblemsSolved || 0, 10),
-            monthly_coding_score: parseInt(codingScores.monthlyCodingScore || 0, 10),
-            over_all_article_published: parseInt(codingScores.articlesPublished || 0, 10)
-        };
-
-        res.status(200).send(response);
-    } catch (error) {
-        console.error('Error while fetching GeeksForGeeks profile:', error.message);
-        res.status(503).json({
-            status: 'failed',
-            message: 'Oops! Some error occurred'
-        });
-    }
-};
-
 // Helper function to extract text from elements
 const extractTextFromElements = ($, elements, elementKeys) => {
     const result = {};
@@ -212,4 +173,5 @@ const extractDetails = ($) => {
     };
 };
 
-module.exports = { atCoderRating, codechefRating, codeforcesRating, leetCodeRating, GeeksForGeeksProfile };
+// Function to fetch GeeksForGeeks profile
+const GeeksForGeeks
