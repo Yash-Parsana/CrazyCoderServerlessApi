@@ -3,11 +3,13 @@ const cheerio = require('cheerio');
 const fetch = require('node-fetch');
 const pretty = require('pretty');
 const { request, gql } = require('graphql-request');
+const puppeteer = require('puppeteer');
 
 const atcoderBaseUrl = 'https://atcoder.jp/users/';
 const codeChefBaseUrl = 'https://www.codechef.com/users/';
 const codeforcesBaseUrl = 'https://codeforces.com/api/user.info?handles=';
 const leetCodeBaseUrl = 'https://leetcode.com/graphql';
+const codingNinjasBaseUrl='https://www.naukri.com/code360/profile/'
 
 const atCoderRating = async (req, res) => {
     try {
@@ -112,6 +114,61 @@ const codeforcesRating = async (req, res) => {
     }
 };
 
+
+const codingNinjasRating=async(req,res)=>{
+    const username = req.params.username;
+    const url = codingNinjasBaseUrl+username;
+    try {
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.setExtraHTTPHeaders({
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Connection': 'keep-alive',
+                'Referer': 'https://www.naukri.com/',
+        });
+        await page.goto(url, {
+            waitUntil: 'domcontentloaded',
+        });
+        const [
+            totalProblemsSolved,
+            easyProblemsSolved,
+            moderateProblemsSolved,
+            hardProblemsSolved,
+            currentStreak,
+            longestStreak
+        ] = await Promise.all([
+            page.$eval('.total', el => parseInt(el.textContent)),
+            page.$eval('.difficulty-wise .difficulty:nth-child(1) .value', el => parseInt(el.textContent)),
+            page.$eval('.difficulty-wise .difficulty:nth-child(2) .value', el => parseInt(el.textContent)),
+            page.$eval('.difficulty-wise .difficulty:nth-child(3) .value', el => parseInt(el.textContent)),
+            page.$eval('.current-and-longest-text-container .text-container:nth-child(1) .day-count-text', el => parseInt(el.textContent)),
+            page.$eval('.current-and-longest-text-container .text-container:nth-child(2) .day-count-text', el => parseInt(el.textContent))
+        ]);
+
+        await browser.close();
+        const result = {
+            status:"success",
+            handle:username,
+            total_problems_solved: totalProblemsSolved,
+            easy: easyProblemsSolved,
+            moderate: moderateProblemsSolved,
+            hard: hardProblemsSolved,
+            currentStreak: currentStreak,
+            longestStreak: longestStreak
+        };
+
+        res.status(200).send(result);
+    } catch (error) {
+        console.error('Error fetching the URL:', error);
+        res.status(500).json({
+            status: 'failed',
+            message: 'Opps! Some error occurred',
+        });
+    }
+}
+
 const leetCodeRating = async (req, res) => {
     const username = req.params.username;
     try {
@@ -214,4 +271,4 @@ const extractDetails = ($) => {
     };
 };
 
-module.exports = { atCoderRating, codechefRating, codeforcesRating, leetCodeRating, GeeksForGeeksProfile };
+module.exports = { atCoderRating, codechefRating, codeforcesRating, leetCodeRating,codingNinjasRating, GeeksForGeeksProfile };
