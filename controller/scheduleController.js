@@ -2,7 +2,6 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const pretty = require('pretty');
 const fetch = require('node-fetch');
-const puppeteer = require('puppeteer');
 
 const atCoderUrl = "https://atcoder.jp/contests";
 const codeChefUrl = "https://www.codechef.com/api/list/contests/all?sort_by=START&sorting_order=asc&offset=0&mode=all";
@@ -12,6 +11,7 @@ const hackerEarthUrl = "https://www.hackerearth.com/chrome-extension/events/";
 const kickStartUrl = "https://codingcompetitions.withgoogle.com/kickstart/schedule";
 const leetCodeUrl = "https://leetcode.com/graphql?query={ allContests { title titleSlug startTime duration __typename } }";
 
+// Function to fetch AtCoder contests
 const atCoderSchedule = async (req, res) => {
     try {
         const { data } = await axios.get(atCoderUrl);
@@ -47,6 +47,7 @@ const atCoderSchedule = async (req, res) => {
     }
 };
 
+// Function to fetch CodeChef contests
 const codechefSchedule = async (req, res) => {
     try {
         const response = await fetch(codeChefUrl);
@@ -94,6 +95,7 @@ const codechefSchedule = async (req, res) => {
     }
 };
 
+// Function to fetch Codeforces contests
 const codeforcesSchedule = async (req, res) => {
     try {
         const response = await fetch(codeforcesUrl);
@@ -131,6 +133,7 @@ const codeforcesSchedule = async (req, res) => {
     }
 };
 
+// Function to fetch HackerRank contests
 const hackerRankSchedule = async (req, res) => {
     try {
         const response = await fetch(hackerRankUrl);
@@ -164,6 +167,7 @@ const hackerRankSchedule = async (req, res) => {
     }
 };
 
+// Function to fetch HackerEarth contests
 const hackerEarthSchedule = async (req, res) => {
     try {
         const response = await fetch(hackerEarthUrl);
@@ -195,6 +199,7 @@ const hackerEarthSchedule = async (req, res) => {
     }
 };
 
+// Function to fetch LeetCode contests
 const leetCodeSchedule = async (req, res) => {
     try {
         const response = await fetch(leetCodeUrl);
@@ -229,6 +234,7 @@ const leetCodeSchedule = async (req, res) => {
     }
 };
 
+// Function to fetch GeeksForGeeks contests
 const gfgSchedule = async (req, res) => {
     try {
         const contests = [];
@@ -277,6 +283,7 @@ const gfgSchedule = async (req, res) => {
     }
 };
 
+// Function to fetch Coding Ninjas contests
 const codingNinjasSchedule = async (req, res) => {
     try {
         let page = 0;

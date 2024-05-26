@@ -8,6 +8,7 @@ const atcoderBaseUrl = 'https://atcoder.jp/users/';
 const codeChefBaseUrl = 'https://www.codechef.com/users/';
 const codeforcesBaseUrl = 'https://codeforces.com/api/user.info?handles=';
 const leetCodeBaseUrl = 'https://leetcode.com/graphql';
+const geeksForGeeksBaseUrl = 'https://auth.geeksforgeeks.org/user/';
 
 // Function to fetch AtCoder rating
 const atCoderRating = async (req, res) => {
@@ -174,4 +175,42 @@ const extractDetails = ($) => {
 };
 
 // Function to fetch GeeksForGeeks profile
-const GeeksForGeeks
+const GeeksForGeeksProfile = async (req, res) => {
+    const username = req.params.username;
+    const url = geeksForGeeksBaseUrl + username + '/practice/';
+
+    try {
+        const profilePage = await axios.get(url);
+
+        if (profilePage.status !== 200) {
+            return res.status(503).json({
+                status: 'failure',
+                message: 'Profile Not Found'
+            });
+        }
+
+        const $ = cheerio.load(profilePage.data);
+
+        const additionalDetails = extractDetails($);
+        const codingScores = additionalDetails.coding_scores;
+
+        const response = {
+            status: "success",
+            handle: username,
+            over_all_coding_score: parseInt(codingScores.codingScore || 0, 10),
+            total_problem_solved: parseInt(codingScores.totalProblemsSolved || 0, 10),
+            monthly_coding_score: parseInt(codingScores.monthlyCodingScore || 0, 10),
+            over_all_article_published: parseInt(codingScores.articlesPublished || 0, 10)
+        };
+
+        res.status(200).send(response);
+    } catch (error) {
+        console.log('Error fetching GeeksForGeeks profile ->', error);
+        res.status(503).json({
+            status: 'failed',
+            message: 'Oops! Some error occurred'
+        });
+    }
+};
+
+module.exports = { atCoderRating, codechefRating, codeforcesRating, leetCodeRating, GeeksForGeeksProfile };
