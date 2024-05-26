@@ -154,4 +154,64 @@ const leetCodeRating = async (req, res) => {
     }
 };
 
-module.exports = { atCoderRating, codechefRating, codeforcesRating, leetCodeRating };
+const GeeksForGeeksProfile = async (req, res) => {
+    const username = req.params.username;
+    const BASE_URL = `https://auth.geeksforgeeks.org/user/${username}/practice/`;
+
+    try {
+        const profilePage = await axios.get(BASE_URL);
+
+        if (profilePage.status !== 200) {
+            return res.status(503).json({
+                status: 'failure',
+                message: 'Profile Not Found'
+            });
+        }
+
+        const $ = cheerio.load(profilePage.data);
+
+        const additionalDetails = extractDetails($);
+        const codingScores = additionalDetails.coding_scores;
+
+        const response = {
+            status: "success",
+            handle: username,
+            over_all_coding_score: parseInt(codingScores.codingScore || 0, 10),
+            total_problem_solved: parseInt(codingScores.totalProblemsSolved || 0, 10),
+            monthly_coding_score: parseInt(codingScores.monthlyCodingScore || 0, 10),
+            over_all_article_published: parseInt(codingScores.articlesPublished || 0, 10)
+        };
+
+        res.status(200).send(response);
+    } catch (error) {
+        console.log('Error fetching GeeksForGeeks profile ->', error);
+        res.status(503).json({
+            status: 'failed',
+            message: 'Oops! Some error occurred'
+        });
+    }
+};
+
+const extractTextFromElements = ($, elements, elementKeys) => {
+    const result = {};
+    elements.each((index, element) => {
+        const innerText = $(element).text().trim();
+        result[elementKeys[index]] = innerText === '_ _' ? "" : innerText;
+    });
+    return result;
+};
+
+const extractDetails = ($) => {
+    const codingScoresByIndex = ["codingScore", "totalProblemsSolved", "monthlyCodingScore", "articlesPublished"];
+
+    let codingScores = $("span.score_card_value");
+    if (codingScores.length === 0) {
+        codingScores = $("div:contains('Coding Score')").nextAll("span");
+    }
+
+    return {
+        coding_scores: extractTextFromElements($, codingScores, codingScoresByIndex)
+    };
+};
+
+module.exports = { atCoderRating, codechefRating, codeforcesRating, leetCodeRating, GeeksForGeeksProfile };
