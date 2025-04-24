@@ -27,7 +27,7 @@ const atCoderRating = async (req, res) => {
         console.log('Error while Fetching atcoderRating -> ', err);
         res.status(503).json({
             success: false,
-            message: 'Opps! Some error occurred',
+            message: 'Opps! Some error occurred in the main file',
         });
     }
 };
@@ -133,7 +133,7 @@ const leetCodeRating = async (req, res) => {
             }
         `;
         const variables = { username };
-        const data = await request(leetCodeBaseUrl, query, variables);
+        const info = await request(leetCodeBaseUrl, query, variables);
         const rating = Math.floor((data?.userContestRanking?.rating));
         const solvedQuestions = {}
         data?.matchedUser?.submitStats?.acSubmissionNum.forEach(element => {

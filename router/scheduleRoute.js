@@ -11,6 +11,4 @@ scheduleRouter.get('/leet_code', leetCodeSchedule)
 scheduleRouter.get('/geeks_for_geeks', gfgSchedule); 
 scheduleRouter.get('/coding_ninjas',codingNinjasSchedule)
 
-
-
 module.exports=scheduleRouter
