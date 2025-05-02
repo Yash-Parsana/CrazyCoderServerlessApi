@@ -163,7 +163,7 @@ const GeeksForGeeksProfile = async (req, res) => {
 
         if (profilePage.status !== 200) {
             return res.status(503).json({
-                status: 'failure',
+                status: 'failure response',
                 message: 'Profile Not Found'
             });
         }
@@ -186,7 +186,7 @@ const GeeksForGeeksProfile = async (req, res) => {
     } catch (error) {
         console.log('Error fetching GeeksForGeeks profile ->', error);
         res.status(503).json({
-            status: 'failed',
+            status: 'failed response ',
             message: 'Oops! Some error occurred'
         });
     }
@@ -214,4 +214,13 @@ const extractDetails = ($) => {
     };
 };
 
-module.exports = { atCoderRating, codechefRating, codeforcesRating, leetCodeRating, GeeksForGeeksProfile };
+const codeWar = ($, elements, elementKeys) =>{
+    const result = {};
+    elements.each((index, element) => {
+        const innerText = $(element).text().trim();
+        result[elementKeys[index]] = innerText === '_ _' ? "" : innerText;
+    });
+    return result;
+}
+
+module.exports = { atCoderRating, codechefRating, codeforcesRating, leetCodeRating, GeeksForGeeksProfile,codeWar, codechefRating };

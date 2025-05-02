@@ -8,5 +8,6 @@ ratingRouter.get('/codeforces/:users',codeforcesRating)
 ratingRouter.get('/at_coder/:username',atCoderRating)
 ratingRouter.get('/leet_code/:username',leetCodeRating)
 ratingRouter.get('/geeks_for_geeks/:username',GeeksForGeeksProfile)
+ratingRouter.get('/https:/www.codewars.com/:username',Codewars);
 
 module.exports=ratingRouter

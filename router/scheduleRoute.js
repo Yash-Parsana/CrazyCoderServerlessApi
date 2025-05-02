@@ -10,6 +10,7 @@ scheduleRouter.get('/hacker_earth', hackerEarthSchedule)
 scheduleRouter.get('/leet_code', leetCodeSchedule)
 scheduleRouter.get('/geeks_for_geeks', gfgSchedule); 
 scheduleRouter.get('/coding_ninjas',codingNinjasSchedule)
+scheduleRouter.get('/https:/www.codewars.com/:username',Codewars);
 
 
 
