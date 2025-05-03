@@ -11,10 +11,10 @@ const scheduleRouter = require('../router/scheduleRoute');
 const ratingRouter = require('../router/ratingRouter');
 
 router.use('/schedule', scheduleRouter);
-router.use('/ranking', ratingRouter);
+router.use('/rankings', ratingRouter);
 
 router.get('/', (req,res) => {
-    res.send("You are in default Rought")
+    res.send("You are in default Route")
 });
 
 app.use('/', router);
